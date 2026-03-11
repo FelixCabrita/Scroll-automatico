@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head><title>Generar iconos</title></head>
+<body>
+<p>Abre esta pagina en Chrome, haz click en el boton, y descargara los iconos PNG necesarios. Ponlos en la carpeta <code>icons/</code>.</p>
+<button onclick="generate()">Generar y descargar iconos</button>
+<script>
+function drawIcon(size) {
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d");
+
+  // Fondo
+  ctx.fillStyle = "#1d4ed8";
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, size * 0.18);
+  ctx.fill();
+
+  // Flecha hacia abajo
+  const cx = size / 2;
+  const s = size * 0.55;
+  ctx.fillStyle = "#ffffff";
+  ctx.beginPath();
+  // triangulo apuntando abajo
+  ctx.moveTo(cx - s * 0.5, size * 0.25);
+  ctx.lineTo(cx + s * 0.5, size * 0.25);
+  ctx.lineTo(cx, size * 0.72);
+  ctx.closePath();
+  ctx.fill();
+
+  // Linea debajo de la flecha
+  const lh = size * 0.07;
+  const lw = s * 0.85;
+  ctx.fillRect(cx - lw / 2, size * 0.76, lw, lh);
+
+  return canvas;
+}
+
+function generate() {
+  [16, 48, 128].forEach(size => {
+    const canvas = drawIcon(size);
+    const a = document.createElement("a");
+    a.download = `icon${size}.png`;
+    a.href = canvas.toDataURL("image/png");
+    a.click();
+  });
+}
+</script>
+</body>
+</html>
